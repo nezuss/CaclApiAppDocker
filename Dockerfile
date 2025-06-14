@@ -6,4 +6,6 @@ COPY . ./
 
 EXPOSE 5116
 
+VOLUME ["/app/data"]
+
 CMD ["dotnet", "run", "--urls", "http://0.0.0.0:5116"]

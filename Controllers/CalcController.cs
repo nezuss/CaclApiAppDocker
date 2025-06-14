@@ -16,6 +16,7 @@ namespace WebApplication26.Controllers
             foreach (var number in numbers)
                 sum += number;
 
+            SaveCalculation($"Addition of {string.Join(", ", numbers)} = {sum}");
             return Ok(new { result = sum });
         }
 
@@ -29,6 +30,7 @@ namespace WebApplication26.Controllers
             for (int i = 1; i < numbers.Length; i++)
                 result -= numbers[i];
 
+            SaveCalculation($"Subtraction of {string.Join(", ", numbers)} = {result}");
             return Ok(new { result = result });
         }
 
@@ -42,6 +44,7 @@ namespace WebApplication26.Controllers
             foreach (var number in numbers)
                 product *= number;
 
+            SaveCalculation($"Multiplication of {string.Join(", ", numbers)} = {product}");
             return Ok(new { result = product });
         }
 
@@ -59,7 +62,16 @@ namespace WebApplication26.Controllers
                 result /= numbers[i];
             }
 
+            SaveCalculation($"Division of {string.Join(", ", numbers)} = {result}");
             return Ok(new { result = result });
+        }
+
+        private static void SaveCalculation(string calculationData)
+        {
+            var filePath = Path.Combine("/app/data", "calculation.txt");
+            var data = System.IO.File.Exists(filePath) ? System.IO.File.ReadAllText(filePath) : string.Empty;
+            System.IO.File.WriteAllText(filePath, data + '\n' + calculationData);
+            Console.WriteLine("Data saved - " + calculationData);
         }
     }
 }
